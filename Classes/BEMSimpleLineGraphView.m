@@ -11,6 +11,10 @@
 
 const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
 
+static inline BOOL CGRectContainsRectHorizontally(CGRect rect1, CGRect rect2) {
+    return CGRectGetMinX(rect1) <= CGRectGetMinX(rect2) &&
+           CGRectGetMaxX(rect2) <= CGRectGetMaxX(rect1);
+}
 
 #if !__has_feature(objc_arc)
 // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
@@ -792,7 +796,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             else [overlapLabels addObject:label]; // Overlapped
         }
         
-        BOOL fullyContainsLabel = CGRectContainsRect(self.bounds, label.frame);
+        BOOL fullyContainsLabel = CGRectContainsRectHorizontally(self.bounds, label.frame);
         if (!fullyContainsLabel) {
             [overlapLabels addObject:label];
         }
